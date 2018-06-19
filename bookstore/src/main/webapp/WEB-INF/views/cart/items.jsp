@@ -1,49 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
-<html>
-<head>
-<c:url value="/" var="contextPath" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Bookstore - Your cart</title>
-<!-- Bootstrap -->
-<c:url value="/resources/css" var="cssPath" />
-<link rel="stylesheet" href="${cssPath}/bootstrap.min.css" />
-<link rel="stylesheet" href="${cssPath}/css/bootstrap-theme.min.css" />
-<style type="text/css">
-body {
-	padding: 60px 0px;
-}
-</style>
-</head>
-<body>
-	<nav class="navbar navbar-inverse">
-	<div class="container">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed"
-				data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-				aria-expanded="false">
-				<span class="sr-only">Toggle navigation</span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="${s:mvcUrl('HC#home').build()}">Bookstore</a>
-		</div>
-		<div class="collapse navbar-collapse"
-			id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-				<li><a href="${s:mvcUrl('PC#getProducts').build()}">List of
-						Products</a></li>
-				<li><a href="${s:mvcUrl('PC#form').build()}">Product input</a></li>
-				<li><a href="${s:mvcUrl('CC#items').build()}">Your cart
-						${cart.quantity}</a></li>
-			</ul>
-		</div>
-	</div>
-	</nav>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="tags" %>
 
+<tags:pageTemplate title="Cart">         
+	
 	<div class="container">
 		<h2>Your cart</h2>
 		<p>${sucess}</p>
@@ -66,11 +29,10 @@ body {
 						<td>${cart.getQuantity(item)}</td>
 						<td>${cart.getTotal(item)}</td>
 						<td>
-							<form
-								action="${s:mvcUrl('CC#remove').arg(0, item.product.id).arg(1, item.priceType).build() }"
+							<form:form	action="${s:mvcUrl('CC#remove').arg(0, item.product.id).arg(1, item.priceType).build() }"
 								method="POST">
-								<input type="submit" name="remove" value="X" />
-							</form>
+								<button type="submit">X</button>
+							</form:form>
 						</td>
 					</tr>
 				</c:forEach>
@@ -78,15 +40,13 @@ body {
 			<tfoot>
 				<tr>
 					<td colspan="3">
-						<form action="<c:url value="/payment/checkout"/>" method="POST">
-							<input type="submit" class="checkout" name="checkout"
-								value="Checkout" />
-						</form>
+						<form:form action="${s:mvcUrl('PC#checkout').build()}" method="POST">
+							<button type="submit" class="btn btn-primary">Checkout</button>
+						</form:form>
 					</td>
 					<td class="numeric-cell">${cart.getTotal()}</td>
 				</tr>
 			</tfoot>
 		</table>
 	</div>
-</body>
-</html>
+</tags:pageTemplate>
