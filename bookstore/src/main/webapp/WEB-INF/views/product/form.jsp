@@ -11,22 +11,22 @@
 	<h2>Product maintenance</h2>
 	<form:form action="/bookstore/product" method="POST" modelAttribute="product" enctype="multipart/form-data"> 	
 		<div class="form-group">
-			<label>Title</label>
+			<label><fmt:message key="book.title"/></label>
 			<form:input  path="title" cssClass="form-control"/>
 			<form:errors path="title" />
 		</div>
 		<div class="form-group">
-			<label>Description</label>
+			<label><fmt:message key="book.description"/></label>
 			<form:textarea path="description"  cssClass="form-control"></form:textarea>
 			<form:errors path="description" />
 		</div>
 		<div class="form-group">
-			<label>Pages</label> 
+			<label><fmt:message key="book.pages"/></label> 
 			<form:input  path="pages" cssClass="form-control" />
 			<form:errors path="pages" />
 		</div>
 		<div class="form-group">
-		    <label>Release Date</label>
+		    <label><fmt:message key="book.releasedate"/></label>
 		    <form:input  path="releaseDt" cssClass="form-control"/>
 		    <form:errors path="releaseDt" />
 		</div>
@@ -38,10 +38,10 @@
 			</div>
 		</c:forEach>
 		<div class="form-group">
-			<label>Summary file</label>
+			<label><fmt:message key="book.summary"/></label>
 			<input name="summary" type="file" class="form-control"/>
 		</div>
-		<button type="submit" class="btn btn-primary">Save</button>
+		<button type="submit" class="btn btn-primary"><fmt:message key="global.save"/></button>
 	</form:form>
 	</div>
 </tags:pageTemplate>

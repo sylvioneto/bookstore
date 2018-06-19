@@ -26,12 +26,10 @@ body {
 	<div class="container">
 		<article id="${product.id}">
 			<h1>${product.title}</h1>
-			<p>${product.description}</p>
-			<p>Pages: ${product.pages}</p>
+			<p><fmt:message key="book.description"/>: ${product.description}</p>
+			<p><fmt:message key="book.pages"/>: ${product.pages}</p>
 			<p>
-				Release Date:
-				<fmt:formatDate pattern="dd/MM/yyyy"
-					value="${product.releaseDt.time}" />
+				<fmt:message key="book.releasedate"/>:	<fmt:formatDate pattern="dd/MM/yyyy" value="${product.releaseDt.time}" />
 			</p>
 		</article>
 		<section>
@@ -39,7 +37,7 @@ body {
 				<input type="hidden" value="${product.id}" name="productId">
 				<!-- Radio button to select the price -->
 				<p>
-					<strong>Prices</strong>
+					<strong><fmt:message key="book.prices"/></strong>
 				</p>
 				<c:forEach items="${product.prices}" var="price">
 					<input type="radio" name="priceType" value="${price.pType}"

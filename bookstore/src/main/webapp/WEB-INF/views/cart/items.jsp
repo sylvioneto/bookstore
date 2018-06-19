@@ -5,8 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags" %>
 
-<tags:pageTemplate title="Cart">         
-	
+<tags:pageTemplate title="Cart">
 	<div class="container">
 		<h2>Your cart</h2>
 		<p>${sucess}</p>

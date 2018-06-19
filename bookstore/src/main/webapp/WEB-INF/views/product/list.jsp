@@ -11,11 +11,11 @@
 		<table class="table table-bordered table-hover">
 			<thead class="thead-dark">
 				<tr>
-					<th>Title</th>
-					<th>Description</th>
-					<th>Pages</th>
-					<th>Release Date</th>
-					<th colspan="2">Prices</th>
+					<th><fmt:message key="book.title"/></th>
+					<th><fmt:message key="book.description"/></th>
+					<th><fmt:message key="book.pages"/></th>
+					<th><fmt:message key="book.releasedate"/></th>
+					<th colspan="2"><fmt:message key="book.prices"/></th>
 				</tr>
 			</thead>
 			<c:forEach items="${products}" var="product">

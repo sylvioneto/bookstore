@@ -1,6 +1,7 @@
 <%@ tag language="java" pageEncoding="UTF-8"%>
 <%@ attribute name="title" required="true" %>
 <%@ attribute name="bodyClass" required="false" %>
+<%@ attribute name="extraScripts" fragment="true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
@@ -30,5 +31,6 @@
 
 	<jsp:doBody />
 
+	<jsp:invoke fragment="extraScripts"></jsp:invoke>
 </body>
 </html>
