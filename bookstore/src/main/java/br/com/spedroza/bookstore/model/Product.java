@@ -2,6 +2,7 @@ package br.com.spedroza.bookstore.model;
 
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class Product{
 	private String summaryPath;
 	
 	@ElementCollection(fetch = FetchType.EAGER) //this annotation creates a new table for the prices linked to the product
-	private List<Price> prices; //price list for this product
+	private List<Price> prices = new ArrayList<>(); //price list for this product
 	
 	// get and set
 	public int getId() {

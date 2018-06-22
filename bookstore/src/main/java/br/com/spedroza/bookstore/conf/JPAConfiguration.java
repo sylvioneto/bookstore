@@ -3,8 +3,10 @@ package br.com.spedroza.bookstore.conf;
 import java.util.Properties;
 
 import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -17,7 +19,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class JPAConfiguration {
 
 	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory(){
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource datasource){
 		System.out.println("Getting entityManagerFactory...");
 		LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
 		
@@ -25,23 +27,34 @@ public class JPAConfiguration {
 		factoryBean.setJpaVendorAdapter(vendorAdapter);
 
 		// database connection details
+		factoryBean.setDataSource(datasource);
+		
+		// hibernate properties
+		factoryBean.setJpaProperties(additionalProperties());
+				
+		//models
+		factoryBean.setPackagesToScan("br.com.spedroza.bookstore.model");
+		return factoryBean;
+	}
+
+	@Bean
+	private Properties additionalProperties() {
+		Properties properties = new Properties();
+		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
+		properties.setProperty("hibernate.show_sql", "true");
+		properties.setProperty("hibernate.hbm2ddl.auto", "update");
+		return properties;
+	}
+
+	@Bean
+	@Profile("app")
+	private DriverManagerDataSource getDataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setUsername("spedroza");
 		dataSource.setPassword("1234");
 		dataSource.setUrl("jdbc:mysql://localhost:3306/bookstore?useSSL=false&serverTimezone=UTC");
 		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-		factoryBean.setDataSource(dataSource);
-		
-		// hibernate properties
-		Properties properties = new Properties();
-		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
-		properties.setProperty("hibernate.show_sql", "true");
-		properties.setProperty("hibernate.hbm2ddl.auto", "update");
-		factoryBean.setJpaProperties(properties);
-		
-		//models
-		factoryBean.setPackagesToScan("br.com.spedroza.bookstore.model");
-		return factoryBean;
+		return dataSource;
 	}
 	
 	@Bean
