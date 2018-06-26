@@ -21,8 +21,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.spedroza.bookstore.dao.ProductDAO;
 import br.com.spedroza.bookstore.infra.FileSaver;
-import br.com.spedroza.bookstore.model.Product;
 import br.com.spedroza.bookstore.model.PriceType;
+import br.com.spedroza.bookstore.model.Product;
 import br.com.spedroza.bookstore.validation.ProductValidation;
 
 @Controller
@@ -111,4 +111,5 @@ public class ProductController {
 		System.out.println("Inside ProductController.getProductJson");
 		return pdao.getById(id);
 	}
+	
 }

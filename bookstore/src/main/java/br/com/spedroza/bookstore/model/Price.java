@@ -23,7 +23,9 @@ public class Price {
 	public void setpType(PriceType pType) {
 		this.pType = pType;
 	}
-
-	
+	@Override
+	public String toString() {
+		return this.pType.name()+" - "+this.amount;
+	}
 		
 }

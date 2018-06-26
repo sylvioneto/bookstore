@@ -15,7 +15,7 @@
 					<th><fmt:message key="book.description"/></th>
 					<th><fmt:message key="book.pages"/></th>
 					<th><fmt:message key="book.releasedate"/></th>
-					<th colspan="2"><fmt:message key="book.prices"/></th>
+					<th><fmt:message key="book.prices"/></th>
 				</tr>
 			</thead>
 			<c:forEach items="${products}" var="product">
@@ -24,9 +24,7 @@
 					<td>${product.description}</td>
 					<td>${product.pages}</td>
 					<td><fmt:formatDate pattern="dd/MM/yyyy" value="${product.releaseDt.time}" /></td>
-						<c:forEach items="${product.prices}" var="price">
-						<td>${price.pType} = ${price.amount}</td>
-					</c:forEach>
+					<td>${product.prices}</td>
 				</tr>
 			</c:forEach>
 		</table>
