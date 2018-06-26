@@ -2,11 +2,11 @@ package br.com.spedroza.bookstore.conf;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +16,8 @@ import org.springframework.format.datetime.DateFormatter;
 import org.springframework.format.datetime.DateFormatterRegistrar;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartResolver;
@@ -41,7 +43,7 @@ import br.com.spedroza.bookstore.model.Cart;
 @EnableWebMvc
 @EnableCaching
 @ComponentScan(basePackageClasses = { HomeController.class, ProductDAO.class, FileSaver.class, Cart.class })
-public class AppWebConfiguration implements WebMvcConfigurer{
+public class AppWebConfiguration implements WebMvcConfigurer {
 
 	@Bean
 	public InternalResourceViewResolver internalResourceViewResolver() {
@@ -101,34 +103,55 @@ public class AppWebConfiguration implements WebMvcConfigurer{
 		return manager;
 	}
 
-	// this new resolver method allow the requester to choose the response type json in the request
+	// this new resolver method allow the requester to choose the response type json
+	// in the request
 	@Bean
 	public ViewResolver contentNegotiationViewResolver(ContentNegotiationManager manager) {
 		System.out.println("Inside AppWebConfiguration.contentNegotiationViewResolver");
 		List<ViewResolver> viewResolvers = new ArrayList<>();
 		viewResolvers.add(internalResourceViewResolver());
 		viewResolvers.add(new JsonViewResolver());
-		
+
 		ContentNegotiatingViewResolver viewResolver = new ContentNegotiatingViewResolver();
 		viewResolver.setViewResolvers(viewResolvers);
 		viewResolver.setContentNegotiationManager(manager);
-		
+
 		return viewResolver;
 	}
-	
+
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
 	}
-	
+
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		System.out.println("Inside AppWebConfiguration.addInterceptors");
 		registry.addInterceptor(new LocaleChangeInterceptor());
 	}
-	
+
 	@Bean
 	public LocaleResolver localeResolver() {
 		return new CookieLocaleResolver();
+	}
+
+	@Bean
+	public MailSender mailSender() {
+		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+
+		mailSender.setHost("smtp.mail.yahoo.com");
+		mailSender.setUsername("user@yahoo.com.br");
+		mailSender.setPassword("password");
+		mailSender.setPort(465);
+		
+		Properties mailProperties = new Properties();
+		mailProperties.put("mail.smtp.auth", true);
+		mailProperties.put("mail.smtp.ssl.enable", "true");
+		mailProperties.put("mail.smtp.ssl.trust", "*");
+		mailProperties.put("mail.smpt.starttls.enable", true); 
+		mailProperties.put("mail.smtp.connectiontimeout", "10000");
+		mailProperties.put("mail.debug", "true");
+		mailSender.setJavaMailProperties(mailProperties);
+		return mailSender;
 	}
 }
