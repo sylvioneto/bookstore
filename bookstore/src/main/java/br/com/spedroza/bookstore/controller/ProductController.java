@@ -87,7 +87,7 @@ public class ProductController {
 	@Cacheable(value="productList")
 	public ModelAndView getProducts(){
 		System.out.println("Inside ProductController.getProducts");
-		ModelAndView modelAndView = new ModelAndView("/product/list");
+		ModelAndView modelAndView = new ModelAndView("product/list");
 		List<Product> products = pdao.getAll();
 		System.out.println("Setting products list...");
 		modelAndView.addObject("products",products);
@@ -97,7 +97,7 @@ public class ProductController {
 	@RequestMapping("/detail/{id}")
 	public ModelAndView detail(@PathVariable("id") int id){
 		System.out.println("Inside ProductController.detail");
-		ModelAndView modelAndView = new ModelAndView("/product/detail");
+		ModelAndView modelAndView = new ModelAndView("product/detail");
 		Product product = pdao.getById(id);
 		System.out.println("Setting product...");
 		modelAndView.addObject("product", product);
